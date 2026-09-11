@@ -20,7 +20,7 @@ public sealed class Plugin : BasePlugin
             "Multiplayer",
             "MaxPlayers",
             10,
-            "Maximum total lobby size for Classic and Versus. Supported range: 6-10. MaxPlayers=10 is intended for Classic 10-player and Versus 5v5 testing.");
+            "Maximum total lobby size for Classic and Versus. Supported range: 6-10. In Versus, players choose RED/BLUE themselves; the mod only raises the total room capacity.");
 
         int maxPlayers = Math.Clamp(maxPlayersConfig.Value, 6, 10);
         if (maxPlayers != maxPlayersConfig.Value)
@@ -33,6 +33,7 @@ public sealed class Plugin : BasePlugin
 
         Log.LogInfo($"{PluginConstants.Name} v{PluginConstants.Version} by arribbaa starting.");
         Log.LogInfo($"Requested maximum players for Classic + Versus: {maxPlayers}");
+        Log.LogInfo("Versus team distribution is not forced; players can switch RED/BLUE themselves up to the total room cap.");
         Log.LogInfo($"Detected GameAssembly: {CoreApi.Build.GameAssemblySha256}");
         Log.LogInfo($"Detected metadata:     {CoreApi.Build.MetadataSha256}");
 
@@ -48,7 +49,7 @@ public sealed class Plugin : BasePlugin
             CoreApi.Mods.Register(PluginConstants.Guid, PluginConstants.Name, PluginConstants.Version);
 
             Log.LogInfo(
-                $"{PluginConstants.Name} is active: {maxPlayers} total players in Classic/Versus, performance voice isolation, rematch keep-lobby.");
+                $"{PluginConstants.Name} is active: {maxPlayers} total players in Classic/Versus, free RED/BLUE team choice in Versus, performance voice isolation, rematch keep-lobby.");
         }
         catch
         {

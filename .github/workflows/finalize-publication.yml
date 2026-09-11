@@ -18,7 +18,7 @@ jobs:
         run: |
           from urllib.request import urlopen
           import textwrap
-          url='https://raw.githubusercontent.com/LocoPablito/MimicParty-Modding/2f7391d3e3ea0796449ea3f7454d16ce917704b4/.github/workflows/finalize-publication.yml'
+          url='https://raw.githubusercontent.com/LocoPablito/MimicParty-Modding/cfb1b41ea6fee7218e914b8ad0d1280f81c44167/.github/workflows/finalize-publication.yml'
           with urlopen(url,timeout=90) as r: workflow=r.read().decode()
           body=workflow.split('        run: |\n',1)[1].split('      - name: Commit final metadata',1)[0]
           exec(compile(textwrap.dedent(body),'pinned_documentation_finalizer','exec'))
@@ -29,4 +29,11 @@ jobs:
           git add -A
           git commit -m "Finalize portable release documentation"
           git push origin HEAD:main
+          mkdir -p "$RUNNER_TEMP/publication-source"
+          git archive --format=zip -o "$RUNNER_TEMP/publication-source/source.zip" HEAD
           gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref main
+      - uses: actions/upload-artifact@v6
+        with:
+          name: publication-source
+          path: ${{ runner.temp }}/publication-source/
+          retention-days: 1

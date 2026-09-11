@@ -5,6 +5,18 @@ namespace Arribbaa.MimicParty.TenPlayerExpansion;
 
 internal static class NativeCapacityPatches
 {
+    // 2026-09-11 later Steam update: the previous four inline "5 player" constants
+    // were refactored into one shared helper. For this exact verified build, patch
+    // only the helper's base value. Its stock return is 4/5 depending on mode; using
+    // desiredMaxPlayers - 1 preserves that one-player delta and yields the configured
+    // value on the normal online path.
+    private const string DynamicCapacityBuildSha256 =
+        "44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11";
+
+    private const string DynamicCapacityHelper =
+        "33 C0 83 F9 01 0F 95 C0 83 C0 04 C3";
+
+    // Legacy runtime signatures used by the earlier supported September builds.
     private const string HostCapacityGate =
         "48 8B 43 40 48 85 C0 0F 84 ?? ?? ?? ?? 83 78 18 05 " +
         "0F 8D ?? ?? ?? ?? 48 8B 0D ?? ?? ?? ?? 83 B9 E4 00 00 00 00";
@@ -27,6 +39,22 @@ internal static class NativeCapacityPatches
             throw new ArgumentOutOfRangeException(nameof(desiredMaxPlayers), "Supported player count is 6-10.");
 
         byte replacement = checked((byte)desiredMaxPlayers);
+
+        if (string.Equals(
+                CoreApi.Build.GameAssemblySha256,
+                DynamicCapacityBuildSha256,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            byte dynamicBase = checked((byte)(desiredMaxPlayers - 1));
+
+            return CoreApi.CreatePatchTransaction(PluginConstants.Guid)
+                .Add(
+                    "Shared dynamic capacity helper",
+                    DynamicCapacityHelper,
+                    patchOffset: 10,
+                    expected: new byte[] { 0x04 },
+                    replacement: new byte[] { dynamicBase });
+        }
 
         return CoreApi.CreatePatchTransaction(PluginConstants.Guid)
             .Add(

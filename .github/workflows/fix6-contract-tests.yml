@@ -41,7 +41,7 @@ jobs:
           if ($errors.Count) { throw ($errors | Out-String) }
           "Script SHA256: $h`nWindows PowerShell parser: PASS" | Set-Content out/script-identity.txt
       - name: Updater regression tests on PowerShell 5.1 and 7
-        shell: pwsh
+        shell: powershell
         run: |
           $script = Join-Path $PWD 'out/Update.ps1'
           foreach ($exe in @('powershell.exe','pwsh.exe')) {
@@ -52,7 +52,7 @@ jobs:
             if ($p.ExitCode -ne 0) { throw "Updater selftests failed in $exe" }
           }
       - name: Unknown game build fails before game-folder writes
-        shell: pwsh
+        shell: powershell
         run: |
           $fixture = Join-Path $env:RUNNER_TEMP 'Mimic Party (fixture)'
           New-Item $fixture -ItemType Directory | Out-Null

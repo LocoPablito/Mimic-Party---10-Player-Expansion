@@ -54,6 +54,8 @@ jobs:
           $zips = @(Get-ChildItem ./tools/Fix5/FIX5_Result_*.zip)
           if ($zips.Count -ne 1) { throw 'Missing result ZIP after controlled error' }
           Get-Content results/unknown-build.txt
+          'NEGATIVE TEST PASS: unknown build rejected before game writes; diagnostic ZIP created.' | Add-Content results/unknown-build.txt
+          exit 0
       - uses: actions/upload-artifact@v6
         if: always()
         with:

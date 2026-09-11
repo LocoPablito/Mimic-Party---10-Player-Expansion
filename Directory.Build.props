@@ -8,7 +8,7 @@
     <Authors>arribbaa</Authors>
     <Company>arribbaa</Company>
     <Copyright>Copyright © 2026 arribbaa</Copyright>
-    <RepositoryUrl>https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion</RepositoryUrl>
+    <RepositoryUrl>https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <WarningsAsErrors>$(WarningsAsErrors);NU1603</WarningsAsErrors>
   </PropertyGroup>

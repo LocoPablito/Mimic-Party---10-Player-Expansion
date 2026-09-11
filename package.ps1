@@ -2,10 +2,17 @@ $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Dist = Join-Path $Root "dist"
+$Project = Join-Path $Root "src\MimicParty.TenPlayerExpansion\MimicParty.TenPlayerExpansion.csproj"
 $Dll = Join-Path $Root "src\MimicParty.TenPlayerExpansion\bin\Release\net6.0\MimicParty10PlayerExpansion.dll"
 
 if (-not (Test-Path -LiteralPath $Dll)) {
     throw "Expansion DLL was not built: $Dll"
+}
+
+[xml]$ProjectXml = Get-Content -LiteralPath $Project -Raw
+$Version = @($ProjectXml.Project.PropertyGroup.Version | Where-Object { $_ })[0]
+if ([string]::IsNullOrWhiteSpace($Version)) {
+    throw "Could not resolve package version from $Project"
 }
 
 Remove-Item $Dist -Recurse -Force -ErrorAction SilentlyContinue
@@ -19,7 +26,7 @@ Copy-Item (Join-Path $Root "README.md") (Join-Path $Stage "README.txt")
 Copy-Item (Join-Path $Root "CHANGELOG.md") (Join-Path $Stage "CHANGELOG.txt")
 Copy-Item (Join-Path $Root "LICENSE.txt") (Join-Path $Stage "LICENSE.txt")
 
-$Zip = Join-Path $Dist "MimicParty_10_Player_Expansion_v1.1.0_by_arribbaa_NEXUS.zip"
+$Zip = Join-Path $Dist "MimicParty_10_Player_Expansion_v${Version}_by_arribbaa_NEXUS.zip"
 Compress-Archive -Path (Join-Path $Stage "*") -DestinationPath $Zip
 
 $Hash = (Get-FileHash -LiteralPath $Zip -Algorithm SHA256).Hash.ToLowerInvariant()

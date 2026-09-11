@@ -1,0 +1,59 @@
+name: Validate FIX5 repair script
+on:
+  pull_request:
+    paths:
+      - 'tools/Fix5/**'
+      - '.github/workflows/fix5-script-tests.yml'
+permissions:
+  contents: read
+jobs:
+  windows-tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify distribution-equivalent script and parse on Windows
+        shell: powershell
+        run: |
+          $p = Join-Path $PWD 'tools/Fix5/Repair.ps1'
+          $text = [IO.File]::ReadAllText($p).Replace("`r`n", "`n").Replace("`n", "`r`n")
+          [IO.File]::WriteAllBytes($p, [Text.Encoding]::ASCII.GetBytes($text))
+          $h = (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($h -ne '9f268d1a86b9caff4e1fb72b20f22bc360c85050055c34a36b1dd97a87ea5e36') { throw "Script differs from local package: $h" }
+          $tokens = $null; $errors = $null
+          [void][Management.Automation.Language.Parser]::ParseFile($p, [ref]$tokens, [ref]$errors)
+          if ($errors.Count) { throw ($errors | Out-String) }
+          New-Item results -ItemType Directory | Out-Null
+          "Script SHA256: $h`nWindows PowerShell parser: PASS" | Set-Content results/identity.txt
+      - name: Windows PowerShell 5.1 regression tests
+        shell: powershell
+        run: |
+          powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File ./tools/Fix5/Repair.ps1 -SelfTest > results/powershell51.txt 2>&1
+          Get-Content results/powershell51.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Windows PowerShell 5.1 tests failed' }
+      - name: PowerShell 7 regression tests
+        shell: powershell
+        run: |
+          pwsh -NoLogo -NoProfile -File ./tools/Fix5/Repair.ps1 -SelfTest > results/powershell7.txt 2>&1
+          Get-Content results/powershell7.txt
+          if ($LASTEXITCODE -ne 0) { throw 'PowerShell 7 tests failed' }
+      - name: Fail-closed main entry point creates diagnostics
+        shell: powershell
+        run: |
+          $fixture = Join-Path $env:RUNNER_TEMP 'Mimic Party (fixture)'
+          New-Item $fixture -ItemType Directory | Out-Null
+          Set-Content (Join-Path $fixture 'Mimic Party.exe') 'NOT AN EXECUTABLE'
+          Set-Content (Join-Path $fixture 'GameAssembly.dll') 'WRONG BUILD'
+          '{"GameAssemblySHA256":"0000000000000000000000000000000000000000000000000000000000000000"}' | Set-Content ./tools/Fix5/Payload.json
+          powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File ./tools/Fix5/Repair.ps1 -GamePath "$fixture" > results/unknown-build.txt 2>&1
+          if ($LASTEXITCODE -eq 0) { throw 'Unknown build incorrectly accepted' }
+          if (Test-Path (Join-Path $fixture 'arribbaa-backups')) { throw 'Unexpected game-folder writes' }
+          $zips = @(Get-ChildItem ./tools/Fix5/FIX5_Result_*.zip)
+          if ($zips.Count -ne 1) { throw 'Missing result ZIP after controlled error' }
+          Get-Content results/unknown-build.txt
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: FIX5-Windows-script-validation
+          path: results/
+          retention-days: 7
+          if-no-files-found: warn

@@ -10,8 +10,9 @@ internal static class NativeCapacityPatches
     // 2026-09-11 later Steam update: the previous four inline capacity constants
     // were refactored into one shared mode helper. Stock behavior returns 5 for
     // Classic and 4 for Versus. Patch the helper's return path itself so the
-    // configured capacity applies to BOTH modes. With MaxPlayers=10 this gives
-    // Classic 10-player rooms and a 10-player Versus room for 5v5 testing.
+    // configured total room capacity applies to BOTH modes. In Versus the mod does
+    // not enforce a team split: players choose RED/BLUE themselves, while the room
+    // itself can hold up to the configured total (10 by default).
     private const string DynamicCapacityBuildSha256 =
         "44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11";
 

@@ -15,11 +15,14 @@ The expansion targets BepInEx 6 Unity IL2CPP build #788 (`6.0.0-be.788`).
 ```text
 parent/
 ├─ MimicParty-Modding/
-└─ Mimic-Party---10-Player-Expansion/
+└─ Mimic-Party-10-Player-Expansion/
 ```
 
 `MimicParty-Modding` is the Core repository:
 https://github.com/LocoPablito/MimicParty-Modding
+
+This repository:
+https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion
 
 ## Build
 

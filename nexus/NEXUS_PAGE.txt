@@ -8,7 +8,7 @@ Up to [b]10 total players[/b] in private Classic and Versus lobbies. Versus keep
 [url=https://www.nexusmods.com/mimicparty/mods/2]Mimic Party Modding Core 1.0.0[/url]
 Mimic Party Windows x64 / Steam, documented v0.1.73 build, Unity 6000.4.2f1.
 
-[b]The current R2 main ZIP contains the Expansion only.[/b] Install both requirements separately. It does not include BepInEx, Core or Interop Bootstrap. The older Complete download already includes Core/Bootstrap and needs the Pack, not another Core copy.
+[b]The current R3 main ZIP contains the Expansion only.[/b] Install both requirements separately. It does not include BepInEx, Core or Interop Bootstrap. The older Complete download already includes Core/Bootstrap and needs the Pack, not another Core copy.
 
 [size=4][b]Installation[/b][/size]
 1. Close the game. When migrating from the old v1.0.x on-disk patch, restore original game files with its uninstaller or Steam Verify integrity first.
@@ -17,7 +17,7 @@ Mimic Party Windows x64 / Steam, documented v0.1.73 build, Unity 6000.4.2f1.
 4. Extract this Expansion ZIP there; it adds BepInEx/plugins/MimicParty10PlayerExpansion.dll.
 5. Launch normally through Steam and create a private lobby. Allow initial interop generation to finish.
 
-Use matching versions across your group. Do not run old private repair installers or install renamed duplicate DLLs. A working 1.1.2 installation does not need its interop cache regenerated for R2.
+Use matching versions across your group. Do not run old private repair installers or install renamed duplicate DLLs. A working 1.1.2 installation does not need its interop cache regenerated for R3.
 
 [size=4][b]Features and configuration[/b][/size]
 Classic and Versus share a total capacity of 10 by default. After a successful launch, close the game and open:
@@ -36,7 +36,7 @@ A fresh Windows game launch through the automatic Pack bootstrap route remains s
 [url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md]Exact supported-build information[/url]
 
 [size=4][b]Update, removal and support[/b][/size]
-R2 changes packaging and documentation only; the Expansion runtime DLL is unchanged. Documentation now lives in MimicParty10PlayerExpansion/ to avoid overwriting other guides.
+R3 changes packaging and documentation only; the Expansion runtime DLL is unchanged. Documentation now lives in MimicParty10PlayerExpansion/ to avoid overwriting other guides.
 Close the game and remove only BepInEx/plugins/MimicParty10PlayerExpansion.dll to uninstall the feature. Keep Core/Pack if other mods use them. Capacity patches are in memory and disappear at process exit.
 
 For errors, check BepInEx/LogOutput.log and include versions plus a sanitized excerpt. Never post game binaries or private diagnostic ZIPs. Do not disable security protection as an installation step.

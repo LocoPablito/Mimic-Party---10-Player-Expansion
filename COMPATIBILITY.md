@@ -12,4 +12,4 @@ Expansion 1.1.2 and Core 1.0.0 loaded in the documented Windows game session. Th
 
 A complete ten-client session, every team distribution and audio/rematch behaviour through a complete large-group match are not confirmed. Installed hooks alone do not establish end-to-end behaviour. An earlier seven-person session reported by the author used a previous release.
 
-A fresh Windows game launch through the Pack's automatic bootstrap route remains separately unconfirmed. Future updates and mixed mod/loader versions are not automatically supported. R2 does not change the runtime DLL.
+A fresh Windows game launch through the Pack's automatic bootstrap route remains separately unconfirmed. Future updates and mixed mod/loader versions are not automatically supported. R3 does not change the runtime DLL.

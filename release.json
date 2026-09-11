@@ -1,8 +1,30 @@
 {
-  "Author":"arribbaa","Component":"expansion","Version":"1.1.2","Revision":2,"Tag":"v1.1.2-r2",
-  "Nexus":{"core":"https://www.nexusmods.com/mimicparty/mods/2","expansion":"https://www.nexusmods.com/mimicparty/mods/1","pack":"https://www.nexusmods.com/mimicparty/mods/3"},
-  "Repositories":{"core":"https://github.com/LocoPablito/MimicParty-Modding","expansion":"https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion","pack":"https://github.com/LocoPablito/BepInEx-Pack-for-Mimic-Party"},
-  "BinaryVersions":{"Expansion":"1.1.2"},
-  "BinarySHA256":{"Expansion":"245aa2148807a56b48105fef49352c628830e08097cf80d22848adf9e5627a8c"},
-  "Inputs":{"Expansion":{"File":"MimicParty_10_Player_Expansion_v1.1.2_ONLY.zip","URL":"https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/releases/download/v1.1.2/MimicParty_10_Player_Expansion_v1.1.2_ONLY.zip","SHA256":"beb4899979729b020337a4b881a68b24b19d177bda3227477ab9164b5013431d"}}
+  "Author": "arribbaa",
+  "Component": "expansion",
+  "Version": "1.1.2",
+  "Revision": 3,
+  "Tag": "v1.1.2-r3",
+  "Nexus": {
+    "core": "https://www.nexusmods.com/mimicparty/mods/2",
+    "expansion": "https://www.nexusmods.com/mimicparty/mods/1",
+    "pack": "https://www.nexusmods.com/mimicparty/mods/3"
+  },
+  "Repositories": {
+    "core": "https://github.com/LocoPablito/MimicParty-Modding",
+    "expansion": "https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion",
+    "pack": "https://github.com/LocoPablito/BepInEx-Pack-for-Mimic-Party"
+  },
+  "BinaryVersions": {
+    "Expansion": "1.1.2"
+  },
+  "BinarySHA256": {
+    "Expansion": "245aa2148807a56b48105fef49352c628830e08097cf80d22848adf9e5627a8c"
+  },
+  "Inputs": {
+    "Expansion": {
+      "File": "MimicParty_10_Player_Expansion_v1.1.2_ONLY.zip",
+      "URL": "https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/releases/download/v1.1.2/MimicParty_10_Player_Expansion_v1.1.2_ONLY.zip",
+      "SHA256": "beb4899979729b020337a4b881a68b24b19d177bda3227477ab9164b5013431d"
+    }
+  }
 }

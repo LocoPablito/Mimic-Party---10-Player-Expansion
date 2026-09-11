@@ -1,6 +1,6 @@
 # Changelog
 
-## Packaging revision R2 — 11 September 2026
+## Packaging revision R3 — 11 September 2026
 
 - Makes the main archive Expansion-only, with explicit Core and BepInEx Pack requirements.
 - Connects all three Nexus pages and dedicated repositories.

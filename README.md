@@ -10,7 +10,7 @@ Up to **10 total players** in private Classic and Versus lobbies. Versus keeps t
 
 - [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.0**, Windows x64 IL2CPP.
 - [Mimic Party Modding Core](https://www.nexusmods.com/mimicparty/mods/2) **1.0.0**.
-- The game/loader combination listed in [Compatibility](COMPATIBILITY.md).
+- The game/loader combination listed in [Compatibility](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md).
 
 **The current main download is Expansion only.** Install both requirements separately. It does not include BepInEx, the Core, or the bootstrap. The older **Complete** download already contains Core/Bootstrap and needs the Pack, not another Core copy.
 
@@ -43,6 +43,6 @@ Close the game and remove only `BepInEx/plugins/MimicParty10PlayerExpansion.dll`
 
 Missing Core dependency: install the Core runtime, not the Developer Starter. Unrecognized game version or loader failure: do not force the patch; check `BepInEx/LogOutput.log`. Do not disable security software as an installation step.
 
-**R2 changes packaging and documentation only; Expansion runtime bytes remain 1.1.2.** Documentation uses its own `MimicParty10PlayerExpansion/` directory.
+**R3 changes packaging and documentation only; Expansion runtime bytes remain 1.1.2.** Documentation uses its own `MimicParty10PlayerExpansion/` directory.
 
-[Compatibility](COMPATIBILITY.md) · [Changelog](CHANGELOG.md) · [Build instructions](BUILDING.md) · [License](LICENSE.txt) · [Security](SECURITY.md)
+[Compatibility](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md) · [Changelog](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/CHANGELOG.md) · [Build instructions](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/BUILDING.md) · [License](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/LICENSE.txt) · [Security](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/SECURITY.md)

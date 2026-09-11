@@ -1,64 +1,46 @@
-[size=5][b]Mimic Party — 10 Player Expansion[/b][/size]
-[b]Version 1.1.2 · by arribbaa[/b]
+[size=5][b]10 Player Expansion for Mimic Party[/b][/size]
+[b]Runtime 1.1.2 · by arribbaa[/b]
 
-Bring a bigger group into Mimic Party: up to [b]10 total players in Classic and Versus[/b], with free RED/BLUE team selection. No forced 5v5 — the mod does not impose equal team sizes.
+Up to [b]10 total players[/b] in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE team selection. The mod does not enforce a five-player quota per side or equal teams.
 
-[size=4][b]Which file should I download?[/b][/size]
-[b]Recommended: Complete — Core included.[/b] It contains Expansion 1.1.2, Modding Core 1.0.0 and Interop Bootstrap 1.0.0. You do not need a separate Core download.
-[b]BepInEx is NOT included[/b] and must be installed from the official link below.
-Expansion ONLY is for users who already have the official Core package and its bootstrap. Do not install duplicate copies of the same DLL.
+[size=4][b]Required downloads[/b][/size]
+[url=https://www.nexusmods.com/mimicparty/mods/3]BepInEx Pack for Mimic Party 1.0.0[/url]
+[url=https://www.nexusmods.com/mimicparty/mods/2]Mimic Party Modding Core 1.0.0[/url]
+Mimic Party Windows x64 / Steam, documented v0.1.73 build, Unity 6000.4.2f1.
 
-[size=4][b]Features[/b][/size]
-[list]
-[*]Classic and Versus capacity set to 10 total; configurable from 6 to 10.
-[*]Free RED/BLUE selection in Versus. 4/6 and other uneven splits are within the intended total; no automatic balancing is imposed.
-[*]Runtime capacity patches with a live native-helper self-check; no permanent replacement of GameAssembly.dll.
-[*]Playback live-voice suppression hooks and rematch keep-lobby hooks.
-[*]Clear startup/hook logs and local compatibility handling for the recognized generated CoreModule issue.
-[/list]
-Workshop pack handling is not replaced. On the documented build both mode cards show Up to 10 players, and Classic shows 1/10 when alone.
-
-[size=4][b]Requirements[/b][/size]
-Mimic Party Windows x64 / Steam, documented game v0.1.73 build captured 11 September 2026 (Unity 6000.4.2f1).
-[b]BepInEx 6 Unity IL2CPP Windows x64 build 788.[/b] Do not use BepInEx 5 or a Mono package.
-[url=https://builds.bepinex.dev/projects/bepinex_be/788/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.788%2B5b766a3.zip]Download official BepInEx build 788[/url]
-[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/SUPPORTED_BUILD.md]Exact supported-build fingerprints[/url]
-Future game updates are not automatically guaranteed compatible.
+[b]The current R2 main ZIP contains the Expansion only.[/b] Install both requirements separately. It does not include BepInEx, Core or Interop Bootstrap. The older Complete download already includes Core/Bootstrap and needs the Pack, not another Core copy.
 
 [size=4][b]Installation[/b][/size]
-1. Close Mimic Party. When upgrading from an old v1.0.x on-disk patch, restore original game files first using its uninstaller or Steam Verify integrity.
-2. Extract the official BepInEx archive into the folder containing Mimic Party.exe.
-3. Extract the Complete package into the same folder BEFORE launching. Preserve the BepInEx/plugins and BepInEx/patchers paths.
-4. Start normally through Steam. Initial interop generation can take longer; do not interrupt it. Create a PRIVATE lobby.
+1. Close the game. When migrating from the old v1.0.x on-disk patch, restore original game files with its uninstaller or Steam Verify integrity first.
+2. Extract the BepInEx Pack into the folder containing Mimic Party.exe.
+3. Extract the Core runtime ZIP into that same folder.
+4. Extract this Expansion ZIP there; it adds BepInEx/plugins/MimicParty10PlayerExpansion.dll.
+5. Launch normally through Steam and create a private lobby. Allow initial interop generation to finish.
 
-Installed author components:
-BepInEx/plugins/MimicPartyModdingCore.dll
-BepInEx/plugins/MimicParty10PlayerExpansion.dll
-BepInEx/patchers/MimicParty.InteropBootstrap.dll
+Use matching versions across your group. Do not run old private repair installers or install renamed duplicate DLLs. A working 1.1.2 installation does not need its interop cache regenerated for R2.
 
-No installer EXE, command file or hotkey is needed. Use matching game/mod versions across participants when testing multiplayer. Do not upload or copy another player's generated interop files.
-
-[size=4][b]Configuration[/b][/size]
-After the first successful launch, close the game and open:
+[size=4][b]Features and configuration[/b][/size]
+Classic and Versus share a total capacity of 10 by default. After a successful launch, close the game and open:
 BepInEx/config/com.arribbaa.mimicparty.10playerexpansion.cfg
-Set MaxPlayers = 10 in [Multiplayer]. Supported range is 6–10. This is a TOTAL room limit, not a limit per team.
 
-Versus still requires at least two players to start. The message Need at least 2 players is a minimum, not the room maximum.
-If a BepInEx console appears, minimize it instead of closing it during play. To hide it on later launches, set Enabled = false under [Logging.Console] in BepInEx/config/BepInEx.cfg, then restart.
+[code][Multiplayer]
+MaxPlayers = 10[/code]
 
-[size=4][b]Update / uninstall[/b][/size]
-The public Expansion DLL is the same one used in the successful 1.1.2 runtime test. Existing users do not need to regenerate working interop files. Do not rerun the old private FIX installers.
-To uninstall, close the game and remove MimicParty10PlayerExpansion.dll from BepInEx/plugins. Keep the Core/bootstrap if another mod needs them. Runtime game-memory patches disappear when the game exits.
+Range: 6-10; out-of-range values are clamped. Restart after changes. No automatic team balancing is imposed. The documented build shows updated mode-card values and Classic 1/10 when alone. Versus still needs at least two players to start; that is a minimum, not its capacity.
 
-[size=4][b]Testing and limitations[/b][/size]
-The documented Windows game run passed all 13 loader/hook/capacity checks. The native helper returned 10 for the tested selectors; screenshots confirm Classic 1/10 and both mode cards at 10. An older release was also tested with seven people according to the author.
-A complete ten-client match, every team split and audio/rematch behaviour across a full large-group session have not been independently established. Installed hooks alone are not end-to-end gameplay verification.
-The Complete package's new automatic bootstrap has separate metadata/load and regression validation; the earlier game session used the already-repaired installation and does not certify a fresh-game launch of this new component.
+The Expansion also installs hooks intended to suppress live voice during playback and retain the lobby during rematch. It does not replace Workshop sound packs. Full large-group audio/rematch behaviour is not confirmed by hook installation alone.
 
-[size=4][b]Security / credits / support[/b][/size]
-Public files are plain ZIPs containing ordinary managed DLLs and documentation. No game/Unity binaries, EXE/script installer, private logs, telemetry or remote auto-updater are included. BepInEx may separately retrieve its own reference libraries at first start. Unexpected antivirus detections should be reviewed, not ignored by disabling protection.
-[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion]Expansion source, releases and issue tracker[/url]
-[url=https://github.com/LocoPablito/MimicParty-Modding]Modding Core source and releases[/url]
-When reporting an issue include versions and a relevant log excerpt, with personal paths removed. Never post game binaries or private diagnostic ZIPs.
+[size=4][b]Compatibility[/b][/size]
+The released Expansion 1.1.2 and Core 1.0.0 loaded in the documented Windows game session. The shared capacity helper returned 10 for the checked selectors. A complete ten-client session and every team distribution are not confirmed. The earlier seven-person session reported by the author used a previous release.
+A fresh Windows game launch through the automatic Pack bootstrap route remains separately unconfirmed. Future game updates are not automatically supported.
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md]Exact supported-build information[/url]
 
-Mod author and maintainer: arribbaa. BepInEx by the BepInEx team and contributors. Mimic Party, Unity and related third-party software belong to their respective owners. Unofficial community mod; no endorsement is implied.
+[size=4][b]Update, removal and support[/b][/size]
+R2 changes packaging and documentation only; the Expansion runtime DLL is unchanged. Documentation now lives in MimicParty10PlayerExpansion/ to avoid overwriting other guides.
+Close the game and remove only BepInEx/plugins/MimicParty10PlayerExpansion.dll to uninstall the feature. Keep Core/Pack if other mods use them. Capacity patches are in memory and disappear at process exit.
+
+For errors, check BepInEx/LogOutput.log and include versions plus a sanitized excerpt. Never post game binaries or private diagnostic ZIPs. Do not disable security protection as an installation step.
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion]Source and releases[/url]
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/issues]Issue tracker[/url]
+
+Mod author and maintainer: arribbaa. External loader/dependencies: BepInEx, HarmonyX and their respective contributors. Mimic Party and Unity belong to their respective owners. Unofficial community mod; no endorsement is implied.

@@ -1,12 +1,9 @@
 bin/
 obj/
 dist/
+.inputs/
 _deps/
-_release-input/
 *.user
 *.log
 *.bundle
-FIX*_Result_*/
-MimicParty_Diagnose_*/
 private/
-author-archive/

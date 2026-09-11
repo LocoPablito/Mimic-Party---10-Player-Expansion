@@ -1,0 +1,35 @@
+name: Import pinned packager
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/import-packager.yml']
+permissions:
+  contents: write
+  actions: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Import exact packaging source
+        shell: python
+        run: |
+          from pathlib import Path
+          from urllib.request import urlopen
+          import hashlib
+          url='https://raw.githubusercontent.com/LocoPablito/MimicParty-Modding/37121e27e821264823fcd26334442f9415e7f883/scripts/package_release.py'
+          with urlopen(url,timeout=90) as response: data=response.read()
+          digest=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          if digest!='295f645c9ca15336d0b10445b4af4775285b88b4': raise ValueError('Packaging source mismatch')
+          path=Path('scripts/package_release.py');path.parent.mkdir(exist_ok=True);path.write_bytes(data)
+          Path('.github/workflows/import-packager.yml').unlink()
+      - name: Commit and start publication
+        run: |
+          git config user.name arribbaa
+          git config user.email 315126767+LocoPablito@users.noreply.github.com
+          git add -A
+          git commit -m "Install pinned publication script"
+          git push origin HEAD:main
+          gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref main

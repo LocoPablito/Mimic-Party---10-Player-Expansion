@@ -1,0 +1,54 @@
+name: Build and publish
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['.github/workflows/import-packager.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'Prepare separated')
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+        with:
+          repository: LocoPablito/MimicParty-Modding
+          ref: 46c03672bab67ed32a060198ec8f2d56d3fdfd6a
+          path: _deps/MimicParty-Modding
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.425'
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compile source
+        shell: pwsh
+        run: ./build.ps1
+      - name: Assemble pinned publication files
+        shell: pwsh
+        run: |
+          python scripts/package_release.py
+          if ($LASTEXITCODE -ne 0) { throw 'Archive verification failed' }
+      - uses: actions/upload-artifact@v6
+        with:
+          name: publication-files
+          path: dist/
+          retention-days: 30
+      - name: Publish new revision without replacing existing assets
+        shell: pwsh
+        run: |
+          $r = Get-Content release.json -Raw | ConvertFrom-Json
+          gh release view $r.Tag --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) { Write-Host 'Version already published; existing assets were not changed.'; exit 0 }
+          $assets = @(Get-ChildItem dist -File | ForEach-Object FullName)
+          gh release create $r.Tag @assets --repo $env:GITHUB_REPOSITORY --target $env:GITHUB_SHA --title "10 Player Expansion $($r.Version) - R$($r.Revision)" --notes-file CHANGELOG.md --latest
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed' }

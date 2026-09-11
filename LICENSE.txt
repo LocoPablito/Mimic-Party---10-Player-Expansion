@@ -3,9 +3,10 @@ by arribbaa
 
 Copyright (c) 2026 arribbaa. All rights reserved.
 Personal use with a legitimate copy of Mimic Party is permitted.
-Redistribution, re-uploading, repackaging, modification, conversion, porting, commercial use, or publishing derivative versions requires prior permission from arribbaa.
+Redistribution, re-uploading, repackaging, modification, conversion, porting, commercial use, or publishing derivative versions requires prior permission from arribbaa, except as expressly permitted below or by applicable third-party license terms.
 
-Mimic Party Modding Core is a separately maintained dependency. The official Complete package published by arribbaa is authorized to include the Core and Interop Bootstrap under their accompanying license. This does not grant third-party redistribution rights.
+The Core is a separately maintained dependency. The official Complete bundle by arribbaa is an authorized first-party distribution; this does not grant general third-party bundling rights.
 
-BepInEx, HarmonyX, Mimic Party, Unity and all related third-party trademarks and software remain the property of their respective owners/projects.
-THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.
+Private modification and reverse engineering necessary to debug or relink with interface-compatible modified LGPL dependencies are permitted. No restriction here narrows upstream license rights.
+
+BepInEx, HarmonyX, Mimic Party, Unity and related software/trademarks belong to their respective owners. THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.

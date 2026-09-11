@@ -1,14 +1,13 @@
-# Build and release provenance
+# Building
 
-The runtime target is net6.0. Build with the .NET 8 SDK and the Core source beside this repository, or pass the MimicPartyCoreProject property.
+Use the .NET 8 SDK to build the net6.0 plugin. Clone the Core source next to this repository or set MIMIC_PARTY_CORE_PROJECT to its csproj.
 
 ```powershell
 ./build.ps1
-dotnet run --project tests/HookContractTests -c Release -f net8.0
 ```
 
-Public release packaging deliberately preserves the Expansion DLL from the verified CI artifact: run `34623888111`, source revision `f52cf5c7d4b0b1da6e06cc1483eee15e92c34d95`. Later changes before publication update only tests/docs/packaging. A new compile can change assembly metadata and hashes despite unchanged runtime source; do not substitute it silently.
+Core source revision used for compilation: 46c03672bab67ed32a060198ec8f2d56d3fdfd6a.
 
-The Complete release embeds the author's Core 1.0.0 package components, with hashes verified and recorded in PROVENANCE.json. The source code is inspection-available under LICENSE.txt; it is not licensed as an unrestricted third-party reupload.
+Publication uses the existing runtime DLL from the pinned release asset in release.json, not the newly compiled output. Its SHA-256 must be 245aa2148807a56b48105fef49352c628830e08097cf80d22848adf9e5627a8c. Run `python scripts/package_release.py` to assemble the R2 archive and hashes.
 
-The release pipeline produces only distributable DLLs and documentation. Old private repair scripts and diagnostic tools are not part of the current public tree. Historical Git commits can still contain older material; removing current-tree files is not a history-erasure operation.
+The runtime source is preserved; R2 changes distribution/docs only. Private regression fixtures and game-derived captures are not current source-tree or release dependencies.

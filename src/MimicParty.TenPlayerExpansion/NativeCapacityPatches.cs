@@ -5,11 +5,11 @@ namespace Arribbaa.MimicParty.TenPlayerExpansion;
 
 internal static class NativeCapacityPatches
 {
-    // 2026-09-11 later Steam update: the previous four inline "5 player" constants
-    // were refactored into one shared helper. For this exact verified build, patch
-    // only the helper's base value. Its stock return is 4/5 depending on mode; using
-    // desiredMaxPlayers - 1 preserves that one-player delta and yields the configured
-    // value on the normal online path.
+    // 2026-09-11 later Steam update: the previous four inline capacity constants
+    // were refactored into one shared mode helper. Stock behavior returns 5 for
+    // Classic and 4 for Versus. Patch the helper's return path itself so the
+    // configured capacity applies to BOTH modes. With MaxPlayers=10 this gives
+    // Classic 10-player rooms and a 10-player Versus room for 5v5 testing.
     private const string DynamicCapacityBuildSha256 =
         "44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11";
 
@@ -45,15 +45,26 @@ internal static class NativeCapacityPatches
                 DynamicCapacityBuildSha256,
                 StringComparison.OrdinalIgnoreCase))
         {
-            byte dynamicBase = checked((byte)(desiredMaxPlayers - 1));
-
+            // Original bytes at +5:
+            //   0F 95 C0       setne al
+            //   83 C0 04       add eax, 4
+            //   C3             ret
+            //
+            // Replacement:
+            //   B8 xx 00 00 00 mov eax, desiredMaxPlayers
+            //   C3             ret
+            //   90             nop
+            //
+            // The earlier xor/cmp instructions remain harmless. The result no longer
+            // differs by mode, so Classic and Versus both advertise/use the configured
+            // total room capacity.
             return CoreApi.CreatePatchTransaction(PluginConstants.Guid)
                 .Add(
-                    "Shared dynamic capacity helper",
+                    "Shared Classic/Versus capacity helper",
                     DynamicCapacityHelper,
-                    patchOffset: 10,
-                    expected: new byte[] { 0x04 },
-                    replacement: new byte[] { dynamicBase });
+                    patchOffset: 5,
+                    expected: new byte[] { 0x0F, 0x95, 0xC0, 0x83, 0xC0, 0x04, 0xC3 },
+                    replacement: new byte[] { 0xB8, replacement, 0x00, 0x00, 0x00, 0xC3, 0x90 });
         }
 
         return CoreApi.CreatePatchTransaction(PluginConstants.Guid)

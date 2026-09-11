@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>MimicParty10PlayerExpansion</AssemblyName>
+    <RootNamespace>Arribbaa.MimicParty.TenPlayerExpansion</RootNamespace>
+    <Product>Mimic Party - 10 Player Expansion</Product>
+    <Description>Mimic Party - 10 Player Expansion by arribbaa</Description>
+    <Version>1.1.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <MimicPartyCoreProject Condition="'$(MimicPartyCoreProject)' == ''">$(MSBuildThisFileDirectory)..\..\..\MimicParty-Modding\src\MimicParty.ModdingCore\MimicParty.ModdingCore.csproj</MimicPartyCoreProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.788" IncludeAssets="compile" />
+    <PackageReference Include="HarmonyX" Version="2.10.2" IncludeAssets="compile" />
+    <ProjectReference Include="$(MimicPartyCoreProject)" Condition="Exists('$(MimicPartyCoreProject)')" />
+  </ItemGroup>
+
+  <Target Name="EnsureMimicPartyCore" BeforeTargets="ResolveReferences" Condition="!Exists('$(MimicPartyCoreProject)')">
+    <Error Text="Mimic Party Modding Core project not found. Clone LocoPablito/MimicParty-Modding next to this repository or pass -p:MimicPartyCoreProject=&lt;path-to-core-csproj&gt;." />
+  </Target>
+</Project>

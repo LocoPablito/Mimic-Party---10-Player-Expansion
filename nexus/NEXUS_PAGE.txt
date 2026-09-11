@@ -61,4 +61,4 @@ Public files are plain ZIPs containing ordinary managed DLLs and documentation. 
 [url=https://github.com/LocoPablito/MimicParty-Modding]Modding Core source and releases[/url]
 When reporting an issue include versions and a relevant log excerpt, with personal paths removed. Never post game binaries or private diagnostic ZIPs.
 
-Designed and tested by arribbaa; developed with generative-AI code and documentation assistance. Mimic Party, Unity, BepInEx and related software belong to their respective owners. Unofficial community mod; no endorsement is implied.
+Mod author and maintainer: arribbaa. BepInEx by the BepInEx team and contributors. Mimic Party, Unity and related third-party software belong to their respective owners. Unofficial community mod; no endorsement is implied.

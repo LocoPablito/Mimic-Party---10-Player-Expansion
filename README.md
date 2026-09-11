@@ -71,7 +71,7 @@ After the first successful run:
 
 ## Source / author
 
-Repository: https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion
+Repository: https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion
 
 Core: https://github.com/LocoPablito/MimicParty-Modding
 

@@ -1,11 +1,19 @@
 from __future__ import annotations
 
 from pathlib import Path
+import xml.etree.ElementTree as ET
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-PACKAGE = DIST / "MimicParty_10_Player_Expansion_v1.1.0_by_arribbaa_NEXUS.zip"
+PROJECT = ROOT / "src" / "MimicParty.TenPlayerExpansion" / "MimicParty.TenPlayerExpansion.csproj"
+
+project_xml = ET.parse(PROJECT)
+version = project_xml.findtext(".//Version")
+if not version:
+    raise SystemExit(f"Project version not found: {PROJECT}")
+
+PACKAGE = DIST / f"MimicParty_10_Player_Expansion_v{version}_by_arribbaa_NEXUS.zip"
 
 EXPECTED = {
     "BepInEx/plugins/MimicParty10PlayerExpansion.dll",
@@ -37,4 +45,4 @@ with zipfile.ZipFile(PACKAGE, "r") as zf:
     if b"arribbaa" not in dll.lower():
         raise AssertionError("Author attribution not found in expansion DLL metadata")
 
-print("Expansion release package validation: PASS")
+print(f"Expansion release package validation: PASS (v{version})")

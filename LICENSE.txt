@@ -2,10 +2,10 @@ MIMIC PARTY - 10 PLAYER EXPANSION - LICENSE
 by arribbaa
 
 Copyright (c) 2026 arribbaa. All rights reserved.
-
 Personal use with a legitimate copy of Mimic Party is permitted.
-
 Redistribution, re-uploading, repackaging, modification, conversion, porting, commercial use, or publishing derivative versions requires prior permission from arribbaa.
 
-Mimic Party Modding Core is a separate dependency and is distributed separately.
-BepInEx, HarmonyX, Mimic Party, and all related third-party trademarks and software remain the property of their respective owners/projects.
+Mimic Party Modding Core is a separately maintained dependency. The official Complete package published by arribbaa is authorized to include the Core and Interop Bootstrap under their accompanying license. This does not grant third-party redistribution rights.
+
+BepInEx, HarmonyX, Mimic Party, Unity and all related third-party trademarks and software remain the property of their respective owners/projects.
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.

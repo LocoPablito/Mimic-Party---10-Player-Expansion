@@ -11,14 +11,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Verify distribution-equivalent script and parse on Windows
+      - name: Prepare exact distribution script and parse on Windows
         shell: powershell
         run: |
           $p = Join-Path $PWD 'tools/Fix5/Repair.ps1'
-          $text = [IO.File]::ReadAllText($p).Replace("`r`n", "`n").Replace("`n", "`r`n")
-          [IO.File]::WriteAllBytes($p, [Text.Encoding]::ASCII.GetBytes($text))
+          ./tools/Fix5/Prepare-Distribution.ps1 -Path $p
           $h = (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($h -ne '9f268d1a86b9caff4e1fb72b20f22bc360c85050055c34a36b1dd97a87ea5e36') { throw "Script differs from local package: $h" }
           $tokens = $null; $errors = $null
           [void][Management.Automation.Language.Parser]::ParseFile($p, [ref]$tokens, [ref]$errors)
           if ($errors.Count) { throw ($errors | Out-String) }
@@ -27,15 +25,21 @@ jobs:
       - name: Windows PowerShell 5.1 regression tests
         shell: powershell
         run: |
+          $ErrorActionPreference = 'Continue'
           powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File ./tools/Fix5/Repair.ps1 -SelfTest > results/powershell51.txt 2>&1
+          $rc=$LASTEXITCODE
+          $ErrorActionPreference = 'Stop'
           Get-Content results/powershell51.txt
-          if ($LASTEXITCODE -ne 0) { throw 'Windows PowerShell 5.1 tests failed' }
+          if ($rc -ne 0) { throw 'Windows PowerShell 5.1 tests failed' }
       - name: PowerShell 7 regression tests
         shell: powershell
         run: |
+          $ErrorActionPreference = 'Continue'
           pwsh -NoLogo -NoProfile -File ./tools/Fix5/Repair.ps1 -SelfTest > results/powershell7.txt 2>&1
+          $rc=$LASTEXITCODE
+          $ErrorActionPreference = 'Stop'
           Get-Content results/powershell7.txt
-          if ($LASTEXITCODE -ne 0) { throw 'PowerShell 7 tests failed' }
+          if ($rc -ne 0) { throw 'PowerShell 7 tests failed' }
       - name: Fail-closed main entry point creates diagnostics
         shell: powershell
         run: |

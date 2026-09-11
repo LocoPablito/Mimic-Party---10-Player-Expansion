@@ -1,0 +1,43 @@
+name: Publish verified Expansion release
+on:
+  push:
+    branches: [main]
+    paths: ['RELEASE_NOTES.md', '.github/workflows/publish-release.yml', 'scripts/package_release.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency: expansion-release-1.1.2
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Preserve development archive for the author
+        run: |
+          mkdir -p author-archive
+          git bundle create author-archive/Expansion-development.bundle --all
+      - uses: actions/upload-artifact@v6
+        with:
+          name: Expansion-author-development-archive
+          path: author-archive/
+          retention-days: 1
+      - name: Retrieve pinned runtime and official Core distribution
+        run: |
+          gh run download 34623888111 --repo "$GITHUB_REPOSITORY" -n MimicParty-10-Player-Expansion -D _release-input/expansion
+          mkdir -p _release-input/core
+          gh release download v1.0.0 --repo LocoPablito/MimicParty-Modding -p MimicParty_Modding_Core_v1.0.0.zip -D _release-input/core
+          python scripts/package_release.py
+      - uses: actions/upload-artifact@v6
+        with:
+          name: Expansion-public-release-files
+          path: dist/
+          retention-days: 30
+      - name: Publish versioned public assets
+        run: |
+          gh release create v1.1.2 dist/MimicParty_10_Player_Expansion_v1.1.2_COMPLETE.zip dist/MimicParty_10_Player_Expansion_v1.1.2_ONLY.zip dist/SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "10 Player Expansion 1.1.2 — Classic and Versus" --notes-file RELEASE_NOTES.md

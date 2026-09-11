@@ -1,0 +1,34 @@
+name: FIX6 rematch contract tests
+on:
+  pull_request:
+    paths:
+      - 'src/MimicParty.TenPlayerExpansion/**'
+      - 'tests/HookContractTests/**'
+      - '.github/workflows/fix6-contract-tests.yml'
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.425'
+      - name: Run reflection regression tests on Windows
+        shell: pwsh
+        run: |
+          New-Item out -ItemType Directory -Force | Out-Null
+          dotnet run --project tests/HookContractTests -c Release -p:TargetFramework=net8.0 | Tee-Object out/windows-contract-tests.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Contract tests failed' }
+      - name: Build isolated Linux .NET 6.0.7 metadata probe
+        shell: pwsh
+        run: |
+          dotnet publish tests/HookContractTests -c Release -r linux-x64 --self-contained true -p:RuntimeFrameworkVersion=6.0.7 -o out/probe
+          if ($LASTEXITCODE -ne 0) { throw 'Probe build failed' }
+      - uses: actions/upload-artifact@v6
+        with:
+          name: FIX6-contract-probe
+          path: out/
+          retention-days: 7
+          if-no-files-found: error

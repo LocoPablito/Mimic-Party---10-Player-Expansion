@@ -1,0 +1,32 @@
+name: Finalize publication
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/finalize-publication.yml']
+permissions:
+  contents: write
+  actions: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Apply the pinned documentation finalizer
+        shell: python
+        run: |
+          from urllib.request import urlopen
+          import textwrap
+          url='https://raw.githubusercontent.com/LocoPablito/MimicParty-Modding/2f7391d3e3ea0796449ea3f7454d16ce917704b4/.github/workflows/finalize-publication.yml'
+          with urlopen(url,timeout=90) as r: workflow=r.read().decode()
+          body=workflow.split('        run: |\n',1)[1].split('      - name: Commit final metadata',1)[0]
+          exec(compile(textwrap.dedent(body),'pinned_documentation_finalizer','exec'))
+      - name: Commit final metadata and publish
+        run: |
+          git config user.name arribbaa
+          git config user.email 315126767+LocoPablito@users.noreply.github.com
+          git add -A
+          git commit -m "Finalize portable release documentation"
+          git push origin HEAD:main
+          gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref main

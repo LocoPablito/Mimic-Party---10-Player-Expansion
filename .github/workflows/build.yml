@@ -1,0 +1,48 @@
+name: Build 10 Player Expansion
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout expansion
+        uses: actions/checkout@v6
+
+      - name: Checkout Mimic Party Modding Core
+        uses: actions/checkout@v6
+        with:
+          repository: LocoPablito/MimicParty-Modding
+          path: _deps/MimicParty-Modding
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.425'
+
+      - name: Restore, build and package
+        shell: pwsh
+        env:
+          MIMIC_PARTY_CORE_PROJECT: ${{ github.workspace }}\_deps\MimicParty-Modding\src\MimicParty.ModdingCore\MimicParty.ModdingCore.csproj
+        run: ./build.ps1
+
+      - name: Validate release package
+        shell: pwsh
+        run: python ./tests/validate_release_package.py
+
+      - name: Upload Nexus-ready artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: MimicParty-10-Player-Expansion
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+          if-no-files-found: error

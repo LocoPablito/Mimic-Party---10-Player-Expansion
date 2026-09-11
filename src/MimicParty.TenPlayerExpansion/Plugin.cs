@@ -42,7 +42,8 @@ public sealed class Plugin : BasePlugin
             _harmonyHooks.Install();
 
             _capacityPatches = NativeCapacityPatches.Create(maxPlayers);
-            _capacityPatches.Apply();
+            IReadOnlyList<RuntimePatchHandle> capacityHandles = _capacityPatches.Apply();
+            NativeCapacityPatches.VerifyRuntime(maxPlayers, capacityHandles, Log);
 
             CoreApi.Mods.Register(PluginConstants.Guid, PluginConstants.Name, PluginConstants.Version);
 

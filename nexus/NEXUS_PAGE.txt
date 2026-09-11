@@ -42,13 +42,13 @@ FILE DESCRIPTION
 v1.1 migrates the 10 Player Expansion to a BepInEx runtime plugin. No permanent GameAssembly patching. Requires Mimic Party Modding Core v1.0.0 or newer. All players in 6-10 player lobbies should use the same v1.1/Core versions.
 
 SOURCE CODE
-https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion
+https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion
 
 CORE SOURCE
 https://github.com/LocoPablito/MimicParty-Modding
 
 BUILD INSTRUCTIONS
-https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion/blob/main/BUILDING.md
+https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/BUILDING.md
 
 IMPORTANT MIGRATION FROM v1.0.x
 Before installing v1.1, users of the old on-disk v1.0.x patch must restore the original game file with the old uninstaller and verify Mimic Party through Steam. Do not run v1.1 on top of a v1.0.x-patched GameAssembly.dll.
